@@ -23,7 +23,7 @@ export default class CreateExercise extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:6000/users/')
+    axios.get('http://localhost:3017/users/')
       .then(response => {
         if (response.data.length > 0) {
           this.setState({
@@ -74,8 +74,18 @@ export default class CreateExercise extends Component {
   
     console.log(exercise);
 
-    axios.post('http://localhost:6000/exercises/add', exercise)
-    .then(res => console.log(res.data));
+    axios.get('http://localhost:3017/users/')
+    .then(response => {
+      if (response.data.length > 0) {
+        this.setState({ 
+          users: response.data.map(user => user.username),
+          username: response.data[0].username
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    })
     
     window.location = '/';
   }
